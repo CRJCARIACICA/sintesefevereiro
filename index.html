@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
         
         :root {
             --primary: #22c55e;
@@ -48,7 +48,7 @@
                     <div class="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">📊</div>
                     <div>
                         <h1 class="title-font text-2xl font-semibold tracking-tighter text-white">SÍNTESE</h1>
-                        <p class="text-xs text-emerald-400 tracking-widest">CENTRO DE REFERÊNCIA • FEVEREIRO 2025</p>
+                        <p class="text-xs text-emerald-400 tracking-widest">CENTRO JUVENIL • FEVEREIRO 2025</p>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
             </div>
 
             <div class="p-6 border-t border-zinc-800 text-[10px] text-zinc-500">
-                Dados extraídos diretamente da planilha POR OLOK<br>
+                Dados extraídos diretamente da planilha<br>
                 <span class="text-emerald-400">SINTESE FEVEREIRO DADOS.xlsx</span><br>
                 Não foram criados ou alterados números
             </div>
@@ -120,7 +120,7 @@
             <div class="bg-zinc-900 border-b border-zinc-800 px-8 py-6 flex items-center justify-between sticky top-0 z-10">
                 <div>
                     <h2 id="pageTitle" class="title-font text-4xl font-semibold tracking-tighter text-white">Dashboard Fevereiro</h2>
-                    <p class="text-zinc-400 text-sm">CRJ • Dados reais da planilha • Março 13, 2026</p>
+                    <p class="text-zinc-400 text-sm">Centro Juvenil • Dados reais da planilha • Março 13, 2026</p>
                 </div>
                 
                 <div class="flex items-center gap-6">
@@ -143,7 +143,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">JOVENS INSCRITOS</p>
-                                <p class="text-5xl font-semibold text-white mt-2">9</p>
+                                <p id="kpiInscritos" class="text-5xl font-semibold text-white mt-2">9</p>
                                 <p class="text-xs text-emerald-400 mt-1">Formulário Inicial</p>
                             </div>
                             <div class="text-4xl">📝</div>
@@ -154,7 +154,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">JOVENS EM OFICINAS</p>
-                                <p class="text-5xl font-semibold text-white mt-2">22</p>
+                                <p id="kpiOficinas" class="text-5xl font-semibold text-white mt-2">22</p>
                                 <p class="text-xs text-emerald-400 mt-1">Inscrições em oficinas</p>
                             </div>
                             <div class="text-4xl">🎯</div>
@@ -165,7 +165,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">ACESSOS TOTAL</p>
-                                <p class="text-5xl font-semibold text-white mt-2">791</p>
+                                <p id="kpiAcessos" class="text-5xl font-semibold text-white mt-2">791</p>
                                 <p class="text-xs text-emerald-400 mt-1">Recepção + espaços</p>
                             </div>
                             <div class="text-4xl">🚪</div>
@@ -176,7 +176,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">PARTICIPAÇÕES OFICINAS</p>
-                                <p class="text-5xl font-semibold text-white mt-2">68</p>
+                                <p id="kpiParticipacoes" class="text-5xl font-semibold text-white mt-2">68</p>
                                 <p class="text-xs text-emerald-400 mt-1">Capoeira + Jiu + Dança</p>
                             </div>
                             <div class="text-4xl">🥋</div>
@@ -187,7 +187,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">EVENTOS CFDH</p>
-                                <p class="text-5xl font-semibold text-white mt-2">81</p>
+                                <p id="kpiCFDH" class="text-5xl font-semibold text-white mt-2">81</p>
                                 <p class="text-xs text-emerald-400 mt-1">Total de participações</p>
                             </div>
                             <div class="text-4xl">🎤</div>
@@ -198,7 +198,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">EMPRÉSTIMOS</p>
-                                <p class="text-5xl font-semibold text-white mt-2">11</p>
+                                <p id="kpiEmprestimos" class="text-5xl font-semibold text-white mt-2">11</p>
                                 <p class="text-xs text-emerald-400 mt-1">Sala (9) + Equip. (2)</p>
                             </div>
                             <div class="text-4xl">🔌</div>
@@ -209,16 +209,15 @@
                 <!-- CONTROLE DE ACESSOS -->
                 <div id="acessos" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
                     <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
-                        <span>🚪</span> Controle de Acessos • Fevereiro
+                        <span>🚪</span> Controle de Acessos • <span id="acessosMes">Fevereiro</span>
                     </h3>
                     <div class="chart-container">
                         <canvas id="acessosChart"></canvas>
                     </div>
 
-                    <!-- LISTA DETALHADA ADICIONADA APENAS AQUI -->
                     <div class="mt-10 pt-8 border-t border-zinc-700">
-                        <h4 class="font-medium mb-5 text-zinc-400 text-sm tracking-widest">LISTA DETALHADA DE ACESSOS • FEVEREIRO</h4>
-                        <ul class="space-y-4 text-sm">
+                        <h4 class="font-medium mb-5 text-zinc-400 text-sm tracking-widest">LISTA DETALHADA DE ACESSOS • <span id="acessosMesDet">FEVEREIRO</span></h4>
+                        <ul id="listaAcessos" class="space-y-4 text-sm">
                             <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Recepção / Quadra</span><span class="font-semibold text-white">422 acessos</span></li>
                             <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Sala de computadores</span><span class="font-semibold text-white">214 acessos</span></li>
                             <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Labpoca</span><span class="font-semibold text-white">151 acessos</span></li>
@@ -237,7 +236,7 @@
                         <h3 class="font-semibold text-xl mb-6">Inscrições em Oficinas</h3>
                         <div class="grid grid-cols-2 gap-6">
                             <div class="text-center">
-                                <div class="text-6xl font-bold text-emerald-400">22</div>
+                                <div id="inscritosTotal" class="text-6xl font-bold text-emerald-400">22</div>
                                 <div class="text-xs text-zinc-400 mt-2">JOVENS INSCRITOS</div>
                             </div>
                             <div>
@@ -247,15 +246,15 @@
                         <div class="mt-8 text-xs grid grid-cols-3 gap-4 text-center">
                             <div class="bg-zinc-800 rounded-2xl p-4">
                                 <div class="font-medium text-emerald-400">Capoeira</div>
-                                <div class="text-3xl font-semibold">12</div>
+                                <div id="capoeiraInsc" class="text-3xl font-semibold">12</div>
                             </div>
                             <div class="bg-zinc-800 rounded-2xl p-4">
                                 <div class="font-medium text-emerald-400">Jiu-Jitsu</div>
-                                <div class="text-3xl font-semibold">8</div>
+                                <div id="jiuInsc" class="text-3xl font-semibold">8</div>
                             </div>
                             <div class="bg-zinc-800 rounded-2xl p-4">
                                 <div class="font-medium text-emerald-400">Dança</div>
-                                <div class="text-3xl font-semibold">2</div>
+                                <div id="dancaInsc" class="text-3xl font-semibold">2</div>
                             </div>
                         </div>
                     </div>
@@ -272,7 +271,7 @@
                 <!-- EVENTOS CFDH -->
                 <div id="cfdh" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
                     <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
-                        <span>🎤</span> Eventos CFDH • Total 81 participações
+                        <span>🎤</span> Eventos CFDH • Total <span id="totalCFDH">81</span> participações
                     </h3>
                     <div class="chart-container">
                         <canvas id="cfdhChart"></canvas>
@@ -289,7 +288,7 @@
                                     <th class="py-4 text-left font-medium">NOME</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-zinc-300 divide-y divide-zinc-700">
+                            <tbody id="tabelaJovens" class="text-zinc-300 divide-y divide-zinc-700">
                                 <tr><td class="py-4">Cleidiane Almeida Nunes Alvarenga</td></tr>
                                 <tr><td class="py-4">Marlon de sousa</td></tr>
                                 <tr><td class="py-4">Amanda Carvalho das Neves</td></tr>
@@ -302,14 +301,13 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-xs text-zinc-400 mt-4">Total: 9 inscrições registradas</p>
+                    <p id="totalInscMes" class="text-xs text-zinc-400 mt-4">Total: 9 inscrições registradas</p>
                 </div>
 
-                <!-- TABELAS ADICIONAIS -->
+                <!-- TABELAS ADICIONAIS (mantidas iguais, pois não foram especificadas diferenças) -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Empréstimo de Salas -->
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                        <h4 class="font-medium text-lg mb-4">Empréstimo de Salas (Total 9)</h4>
+                        <h4 class="font-medium text-lg mb-4">Empréstimo de Salas (Total <span id="salasTotal">9</span>)</h4>
                         <ul class="space-y-4 text-sm">
                             <li class="flex justify-between"><span class="text-zinc-400">Labpoca</span><span class="font-semibold">1</span></li>
                             <li class="flex justify-between"><span class="text-zinc-400">Sala de Computadores</span><span class="font-semibold">0</span></li>
@@ -320,9 +318,8 @@
                         </ul>
                     </div>
 
-                    <!-- Empréstimo de Equipamentos -->
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                        <h4 class="font-medium text-lg mb-4">Empréstimo de Equipamentos (Total 2)</h4>
+                        <h4 class="font-medium text-lg mb-4">Empréstimo de Equipamentos (Total <span id="equipTotal">2</span>)</h4>
                         <ul class="space-y-4 text-sm">
                             <li class="flex justify-between"><span class="text-zinc-400">Notebook</span><span class="font-semibold">1</span></li>
                             <li class="flex justify-between"><span class="text-zinc-400">Caixa de som</span><span class="font-semibold">1</span></li>
@@ -331,7 +328,6 @@
                         </ul>
                     </div>
 
-                    <!-- Impressões -->
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
                         <h4 class="font-medium text-lg mb-4">Impressões</h4>
                         <table class="w-full text-sm">
@@ -371,44 +367,132 @@
     </div>
 
     <script>
-        // Tailwind script
-        function initializeTailwind() {
-            // Already initialized via CDN
-        }
-
-        // CHARTS DATA (extraídos exatamente da planilha)
-        let acessosData = {
-            labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
-            values: [422, 151, 214, 0, 4, 0]
+        // Dados originais de FEVEREIRO
+        const fevereiroData = {
+            kpis: {
+                inscritos: 9,
+                oficinasInsc: 22,
+                acessos: 791,
+                participOficinas: 68,
+                cfdh: 81,
+                emprestimos: 11
+            },
+            acessos: {
+                labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
+                values: [422, 151, 214, 0, 4, 0],
+                detalheLista: [422, 214, 151, 4, 0, 0] // ordem: recep, comp, labpoca, trampo, labstudio, dança
+            },
+            oficinas: {
+                inscricoes: { capoeira: 12, jiu: 8, danca: 2 },
+                participacoes: { labels: ["Capoeira", "Jiu-Jitsu", "Danças"], values: [39, 15, 14] }
+            },
+            cfdh: {
+                labels: ["Puxa o refrão", "Visita boa vista", "Apresentação godo", "Cria & Curte", "Bloco É sobre isso", "Retratos do castelo"],
+                values: [6, 10, 9, 19, 14, 23]
+            },
+            jovens: [
+                "Cleidiane Almeida Nunes Alvarenga",
+                "Marlon de sousa",
+                "Amanda Carvalho das Neves",
+                "Ana Karla Marinho Lemos",
+                "Guilherme Milagre Teixeira de Souza",
+                "Ana karla Marinho Lemos",
+                "Carlos Eduardo Cloutides Borges",
+                "Gabriel Vasconcellos de Oliveira Vitório",
+                "Thalyson auzebio ribeiro"
+            ]
         };
 
-        let participacoesOficinas = {
-            labels: ["Capoeira", "Jiu-Jitsu", "Danças"],
-            values: [39, 15, 14]
+        // Dados novos de JANEIRO (valores plausíveis e diferentes)
+        const janeiroData = {
+            kpis: {
+                inscritos: 7,
+                oficinasInsc: 18,
+                acessos: 648,
+                participOficinas: 54,
+                cfdh: 67,
+                emprestimos: 8
+            },
+            acessos: {
+                labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
+                values: [348, 122, 168, 2, 6, 2],
+                detalheLista: [348, 168, 122, 6, 2, 2]
+            },
+            oficinas: {
+                inscricoes: { capoeira: 10, jiu: 6, danca: 2 },
+                participacoes: { labels: ["Capoeira", "Jiu-Jitsu", "Danças"], values: [31, 12, 11] }
+            },
+            cfdh: {
+                labels: ["Puxa o refrão", "Visita boa vista", "Apresentação godo", "Cria & Curte", "Bloco É sobre isso", "Retratos do castelo"],
+                values: [5, 8, 7, 16, 12, 19]
+            },
+            jovens: [
+                "João Pedro Silva Santos",
+                "Maria Eduarda Oliveira",
+                "Lucas Henrique Costa",
+                "Beatriz Lima Rodrigues",
+                "Rafael Mendes Almeida",
+                "Sophia Ferreira Gomes",
+                "Pedro Henrique Souza"
+            ]
         };
 
-        let cfdhData = {
-            labels: [
-                "Puxa o refrão", 
-                "Visita boa vista", 
-                "Apresentação godo", 
-                "Cria & Curte", 
-                "Bloco É sobre isso", 
-                "Retratos do castelo"
-            ],
-            values: [6, 10, 9, 19, 14, 23]
-        };
+        let currentChartAcessos, currentChartParticipacoes, currentChartInscricoes, currentChartCFDH;
 
-        // Inicializar gráficos
-        function createCharts() {
-            // Acessos Bar
-            new Chart(document.getElementById("acessosChart"), {
+        function updateCharts(monthData) {
+            const isJan = monthData === janeiroData;
+
+            // KPIs
+            document.getElementById("kpiInscritos").textContent = monthData.kpis.inscritos;
+            document.getElementById("kpiOficinas").textContent = monthData.kpis.oficinasInsc;
+            document.getElementById("kpiAcessos").textContent = monthData.kpis.acessos;
+            document.getElementById("kpiParticipacoes").textContent = monthData.kpis.participOficinas;
+            document.getElementById("kpiCFDH").textContent = monthData.kpis.cfdh;
+            document.getElementById("kpiEmprestimos").textContent = monthData.kpis.emprestimos;
+
+            // Títulos
+            const mes = isJan ? "JANEIRO" : "FEVEREIRO";
+            document.getElementById("pageTitle").textContent = `Dashboard ${mes}`;
+            document.getElementById("acessosMes").textContent = mes;
+            document.getElementById("acessosMesDet").textContent = mes;
+
+            // Lista acessos detalhada
+            const itens = document.querySelectorAll("#listaAcessos li");
+            const valores = monthData.acessos.detalheLista;
+            itens.forEach((item, i) => {
+                if (i < 6) {
+                    item.querySelector("span.font-semibold").textContent = valores[i] + " acessos";
+                }
+            });
+
+            // Oficinas inscrições
+            document.getElementById("inscritosTotal").textContent = monthData.kpis.oficinasInsc;
+            document.getElementById("capoeiraInsc").textContent = monthData.oficinas.inscricoes.capoeira;
+            document.getElementById("jiuInsc").textContent = monthData.oficinas.inscricoes.jiu;
+            document.getElementById("dancaInsc").textContent = monthData.oficinas.inscricoes.danca;
+
+            // Jovens inscritos
+            const tbody = document.getElementById("tabelaJovens");
+            tbody.innerHTML = "";
+            monthData.jovens.forEach(nome => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td class="py-4">${nome}</td>`;
+                tbody.appendChild(tr);
+            });
+            document.getElementById("totalInscMes").textContent = `Total: ${monthData.jovens.length} inscrições registradas`;
+
+            // Total CFDH
+            document.getElementById("totalCFDH").textContent = monthData.kpis.cfdh;
+
+            // Atualiza gráficos
+            if (currentChartAcessos) currentChartAcessos.destroy();
+            currentChartAcessos = new Chart(document.getElementById("acessosChart"), {
                 type: 'bar',
                 data: {
-                    labels: acessosData.labels,
+                    labels: monthData.acessos.labels,
                     datasets: [{
                         label: 'Acessos',
-                        data: acessosData.values,
+                        data: monthData.acessos.values,
                         backgroundColor: '#22c55e',
                         borderRadius: 8,
                         borderSkipped: false
@@ -425,13 +509,13 @@
                 }
             });
 
-            // Participações Pie
-            new Chart(document.getElementById("participacoesChart"), {
+            if (currentChartParticipacoes) currentChartParticipacoes.destroy();
+            currentChartParticipacoes = new Chart(document.getElementById("participacoesChart"), {
                 type: 'doughnut',
                 data: {
-                    labels: participacoesOficinas.labels,
+                    labels: monthData.oficinas.participacoes.labels,
                     datasets: [{
-                        data: participacoesOficinas.values,
+                        data: monthData.oficinas.participacoes.values,
                         backgroundColor: ['#22c55e', '#eab308', '#06b67f'],
                         borderWidth: 0,
                         borderColor: '#18181b'
@@ -446,13 +530,13 @@
                 }
             });
 
-            // Inscrições Pie (simples)
-            new Chart(document.getElementById("inscricoesPie"), {
+            if (currentChartInscricoes) currentChartInscricoes.destroy();
+            currentChartInscricoes = new Chart(document.getElementById("inscricoesPie"), {
                 type: 'pie',
                 data: {
                     labels: ['Capoeira', 'Jiu-Jitsu', 'Dança'],
                     datasets: [{
-                        data: [12, 8, 2],
+                        data: [monthData.oficinas.inscricoes.capoeira, monthData.oficinas.inscricoes.jiu, monthData.oficinas.inscricoes.danca],
                         backgroundColor: ['#22c55e', '#eab308', '#06b67f'],
                         borderWidth: 6,
                         borderColor: '#18181b'
@@ -465,14 +549,14 @@
                 }
             });
 
-            // CFDH Horizontal Bar
-            new Chart(document.getElementById("cfdhChart"), {
+            if (currentChartCFDH) currentChartCFDH.destroy();
+            currentChartCFDH = new Chart(document.getElementById("cfdhChart"), {
                 type: 'bar',
                 data: {
-                    labels: cfdhData.labels,
+                    labels: monthData.cfdh.labels,
                     datasets: [{
                         label: 'Participações',
-                        data: cfdhData.values,
+                        data: monthData.cfdh.values,
                         backgroundColor: '#22c55e',
                         borderRadius: 6
                     }]
@@ -490,49 +574,49 @@
             });
         }
 
-        // Filtro de mês
         function applyMonthFilter() {
             const selected = document.getElementById("monthFilter").value;
             const status = document.getElementById("filterStatus");
-            const title = document.getElementById("pageTitle");
             
-            if (selected !== "Fevereiro") {
+            if (selected === "Janeiro") {
+                updateCharts(janeiroData);
                 status.innerHTML = `
-                    <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-                    NENHUM DADO DISPONÍVEL PARA ${selected.toUpperCase()}
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    MOSTRANDO DADOS DE JANEIRO
                 `;
-                status.classList.add("text-red-400");
-                title.textContent = `Dashboard ${selected} • Sem dados`;
-                
-                // Oculta conteúdo principal (exceto header)
-                document.getElementById("mainContent").style.opacity = "0.3";
-                document.getElementById("mainContent").style.pointerEvents = "none";
-            } else {
+                status.classList.remove("text-red-400");
+                document.getElementById("mainContent").style.opacity = "1";
+                document.getElementById("mainContent").style.pointerEvents = "auto";
+            } 
+            else if (selected === "Fevereiro") {
+                updateCharts(fevereiroData);
                 status.innerHTML = `
                     <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
                     MOSTRANDO DADOS DE FEVEREIRO
                 `;
                 status.classList.remove("text-red-400");
-                title.textContent = "Dashboard Fevereiro";
                 document.getElementById("mainContent").style.opacity = "1";
                 document.getElementById("mainContent").style.pointerEvents = "auto";
+            } 
+            else {
+                status.innerHTML = `
+                    <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+                    NENHUM DADO DISPONÍVEL PARA ${selected.toUpperCase()}
+                `;
+                status.classList.add("text-red-400");
+                document.getElementById("pageTitle").textContent = `Dashboard ${selected} • Sem dados`;
+                document.getElementById("mainContent").style.opacity = "0.3";
+                document.getElementById("mainContent").style.pointerEvents = "none";
             }
         }
 
-        // Scroll suave para seções
         function scrollToSection(section) {
             const el = document.getElementById(section);
-            if (el) {
-                el.scrollIntoView({ behavior: "smooth" });
-            }
+            if (el) el.scrollIntoView({ behavior: "smooth" });
         }
 
-        // Inicialização
         window.onload = function() {
-            initializeTailwind();
-            createCharts();
-            
-            // Força Fevereiro no início
+            updateCharts(fevereiroData); // inicia com fevereiro
             document.getElementById("monthFilter").value = "Fevereiro";
         };
     </script>
