@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Interativo • Síntese Fevereiro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary: #22c55e;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .title-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <div class="flex h-screen overflow-hidden">
+        <!-- SIDEBAR -->
+        <div class="w-72 bg-zinc-900 border-r border-zinc-800 flex flex-col">
+            <div class="p-6 border-b border-zinc-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">📊</div>
+                    <div>
+                        <h1 class="title-font text-2xl font-semibold tracking-tighter text-white">SÍNTESE</h1>
+                        <p class="text-xs text-emerald-400 tracking-widest">CENTRO DE REFERÊNCIA • FEVEREIRO 2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTRO DE MÊS -->
+            <div class="p-6">
+                <label class="block text-xs font-medium text-zinc-400 mb-2 tracking-wider">FILTRAR POR MÊS</label>
+                <select id="monthFilter" 
+                        onchange="applyMonthFilter()"
+                        class="w-full bg-zinc-800 border border-zinc-700 text-white rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+                    <option value="Janeiro">Janeiro</option>
+                    <option value="Fevereiro" selected>Fevereiro</option>
+                    <option value="Março">Março</option>
+                    <option value="Abril">Abril</option>
+                    <option value="Maio">Maio</option>
+                    <option value="Junho">Junho</option>
+                    <option value="Julho">Julho</option>
+                    <option value="Agosto">Agosto</option>
+                    <option value="Setembro">Setembro</option>
+                    <option value="Outubro">Outubro</option>
+                    <option value="Novembro">Novembro</option>
+                    <option value="Dezembro">Dezembro</option>
+                </select>
+                <p id="filterStatus" class="mt-3 text-[10px] text-emerald-400 font-medium flex items-center gap-1">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    MOSTRANDO DADOS DE FEVEREIRO
+                </p>
+            </div>
+
+            <!-- NAV -->
+            <div class="px-3 flex-1 overflow-y-auto">
+                <div onclick="scrollToSection('kpis')" 
+                     class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
+                    <span class="text-lg">📈</span>
+                    <span>KPIs Principais</span>
+                </div>
+                <div onclick="scrollToSection('acessos')" 
+                     class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
+                    <span class="text-lg">🚪</span>
+                    <span>Controle de Acessos</span>
+                </div>
+                <div onclick="scrollToSection('oficinas')" 
+                     class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
+                    <span class="text-lg">🎨</span>
+                    <span>Oficinas</span>
+                </div>
+                <div onclick="scrollToSection('cfdh')" 
+                     class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
+                    <span class="text-lg">🎤</span>
+                    <span>Eventos CFDH</span>
+                </div>
+                <div onclick="scrollToSection('jovens')" 
+                     class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
+                    <span class="text-lg">👥</span>
+                    <span>Jovens Inscritos</span>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-zinc-800 text-[10px] text-zinc-500">
+                Dados extraídos diretamente da planilha POR OLOK<br>
+                <span class="text-emerald-400">SINTESE FEVEREIRO DADOS.xlsx</span><br>
+                Não foram criados ou alterados números
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 overflow-y-auto bg-zinc-950" id="mainContent">
+            <!-- HEADER -->
+            <div class="bg-zinc-900 border-b border-zinc-800 px-8 py-6 flex items-center justify-between sticky top-0 z-10">
+                <div>
+                    <h2 id="pageTitle" class="title-font text-4xl font-semibold tracking-tighter text-white">Dashboard Fevereiro</h2>
+                    <p class="text-zinc-400 text-sm">CRJ • Dados reais da planilha • Março 13, 2026</p>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 bg-zinc-800 rounded-3xl px-5 py-2 text-sm">
+                        <div class="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                        <span class="font-medium">Online</span>
+                    </div>
+                    <button onclick="window.location.reload()" 
+                            class="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 transition-colors px-6 py-3 rounded-3xl text-sm font-medium">
+                        <span>Atualizar Dashboard</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-8 space-y-10">
+                
+                <!-- KPIs -->
+                <div id="kpis" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs tracking-widest text-zinc-400">JOVENS INSCRITOS</p>
+                                <p class="text-5xl font-semibold text-white mt-2">9</p>
+                                <p class="text-xs text-emerald-400 mt-1">Formulário Inicial</p>
+                            </div>
+                            <div class="text-4xl">📝</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs tracking-widest text-zinc-400">JOVENS EM OFICINAS</p>
+                                <p class="text-5xl font-semibold text-white mt-2">22</p>
+                                <p class="text-xs text-emerald-400 mt-1">Inscrições em oficinas</p>
+                            </div>
+                            <div class="text-4xl">🎯</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs tracking-widest text-zinc-400">ACESSOS TOTAL</p>
+                                <p class="text-5xl font-semibold text-white mt-2">791</p>
+                                <p class="text-xs text-emerald-400 mt-1">Recepção + espaços</p>
+                            </div>
+                            <div class="text-4xl">🚪</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs tracking-widest text-zinc-400">PARTICIPAÇÕES OFICINAS</p>
+                                <p class="text-5xl font-semibold text-white mt-2">68</p>
+                                <p class="text-xs text-emerald-400 mt-1">Capoeira + Jiu + Dança</p>
+                            </div>
+                            <div class="text-4xl">🥋</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs tracking-widest text-zinc-400">EVENTOS CFDH</p>
+                                <p class="text-5xl font-semibold text-white mt-2">81</p>
+                                <p class="text-xs text-emerald-400 mt-1">Total de participações</p>
+                            </div>
+                            <div class="text-4xl">🎤</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs tracking-widest text-zinc-400">EMPRÉSTIMOS</p>
+                                <p class="text-5xl font-semibold text-white mt-2">11</p>
+                                <p class="text-xs text-emerald-400 mt-1">Sala (9) + Equip. (2)</p>
+                            </div>
+                            <div class="text-4xl">🔌</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTROLE DE ACESSOS -->
+                <div id="acessos" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                    <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
+                        <span>🚪</span> Controle de Acessos • Fevereiro
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="acessosChart"></canvas>
+                    </div>
+
+                    <!-- LISTA DETALHADA ADICIONADA APENAS AQUI -->
+                    <div class="mt-10 pt-8 border-t border-zinc-700">
+                        <h4 class="font-medium mb-5 text-zinc-400 text-sm tracking-widest">LISTA DETALHADA DE ACESSOS • FEVEREIRO</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Recepção / Quadra</span><span class="font-semibold text-white">422 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Sala de computadores</span><span class="font-semibold text-white">214 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Labpoca</span><span class="font-semibold text-white">151 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Trampo coletivo</span><span class="font-semibold text-white">4 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Labstudio</span><span class="font-semibold text-white">0 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Sala de dança</span><span class="font-semibold text-white">0 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Parcerias</span><span class="font-semibold text-amber-400">sem informações</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- OFICINAS -->
+                <div id="oficinas" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Inscrições em Oficinas -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                        <h3 class="font-semibold text-xl mb-6">Inscrições em Oficinas</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="text-center">
+                                <div class="text-6xl font-bold text-emerald-400">22</div>
+                                <div class="text-xs text-zinc-400 mt-2">JOVENS INSCRITOS</div>
+                            </div>
+                            <div>
+                                <canvas id="inscricoesPie"></canvas>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-xs grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-zinc-800 rounded-2xl p-4">
+                                <div class="font-medium text-emerald-400">Capoeira</div>
+                                <div class="text-3xl font-semibold">12</div>
+                            </div>
+                            <div class="bg-zinc-800 rounded-2xl p-4">
+                                <div class="font-medium text-emerald-400">Jiu-Jitsu</div>
+                                <div class="text-3xl font-semibold">8</div>
+                            </div>
+                            <div class="bg-zinc-800 rounded-2xl p-4">
+                                <div class="font-medium text-emerald-400">Dança</div>
+                                <div class="text-3xl font-semibold">2</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participações em Oficinas -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                        <h3 class="font-semibold text-xl mb-6">Participações em Oficinas</h3>
+                        <div class="chart-container">
+                            <canvas id="participacoesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EVENTOS CFDH -->
+                <div id="cfdh" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                    <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
+                        <span>🎤</span> Eventos CFDH • Total 81 participações
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="cfdhChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- JOVENS INSCRITOS -->
+                <div id="jovens" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                    <h3 class="font-semibold text-xl mb-6">Jovens Inscritos no Mês (Formulário Inicial)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full data-table text-sm">
+                            <thead>
+                                <tr class="border-b border-zinc-700 text-zinc-400 text-xs">
+                                    <th class="py-4 text-left font-medium">NOME</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-zinc-300 divide-y divide-zinc-700">
+                                <tr><td class="py-4">Cleidiane Almeida Nunes Alvarenga</td></tr>
+                                <tr><td class="py-4">Marlon de sousa</td></tr>
+                                <tr><td class="py-4">Amanda Carvalho das Neves</td></tr>
+                                <tr><td class="py-4">Ana Karla Marinho Lemos</td></tr>
+                                <tr><td class="py-4">Guilherme Milagre Teixeira de Souza</td></tr>
+                                <tr><td class="py-4">Ana karla Marinho Lemos</td></tr>
+                                <tr><td class="py-4">Carlos Eduardo Cloutides Borges</td></tr>
+                                <tr><td class="py-4">Gabriel Vasconcellos de Oliveira Vitório</td></tr>
+                                <tr><td class="py-4">Thalyson auzebio ribeiro</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-zinc-400 mt-4">Total: 9 inscrições registradas</p>
+                </div>
+
+                <!-- TABELAS ADICIONAIS -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Empréstimo de Salas -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                        <h4 class="font-medium text-lg mb-4">Empréstimo de Salas (Total 9)</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex justify-between"><span class="text-zinc-400">Labpoca</span><span class="font-semibold">1</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Sala de Computadores</span><span class="font-semibold">0</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Trampo Coletivo</span><span class="font-semibold">2</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Labstudio</span><span class="font-semibold">3</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Quadra</span><span class="font-semibold">0</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Sala de dança</span><span class="font-semibold">3</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Empréstimo de Equipamentos -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                        <h4 class="font-medium text-lg mb-4">Empréstimo de Equipamentos (Total 2)</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex justify-between"><span class="text-zinc-400">Notebook</span><span class="font-semibold">1</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Caixa de som</span><span class="font-semibold">1</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Livro</span><span class="font-semibold">0</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Câmera</span><span class="font-semibold">0</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Impressões -->
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                        <h4 class="font-medium text-lg mb-4">Impressões</h4>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="text-zinc-400 text-xs border-b">
+                                    <th class="py-3 text-left">Nome</th>
+                                    <th class="py-3 text-right">Impressões</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-700">
+                                <tr><td class="py-4">Brendolly</td><td class="py-4 text-right font-medium">10</td></tr>
+                                <tr><td class="py-4">Julia</td><td class="py-4 text-right font-medium">12</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PARCERIAS E OUTROS -->
+                <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="text-emerald-400 text-sm font-medium">PARCERIAS ATIVAS</div>
+                        <div class="text-5xl font-bold text-white">3</div>
+                        <div class="text-xs text-zinc-400">Atualizado com novas parcerias</div>
+                    </div>
+                    <div>
+                        <h5 class="text-xs tracking-widest text-zinc-400 mb-3">PARCEIROS DETALHADOS</h5>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Igreja Universal</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Desbravadores</li>
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Projeto Fone</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            // Already initialized via CDN
+        }
+
+        // CHARTS DATA (extraídos exatamente da planilha)
+        let acessosData = {
+            labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
+            values: [422, 151, 214, 0, 4, 0]
+        };
+
+        let participacoesOficinas = {
+            labels: ["Capoeira", "Jiu-Jitsu", "Danças"],
+            values: [39, 15, 14]
+        };
+
+        let cfdhData = {
+            labels: [
+                "Puxa o refrão", 
+                "Visita boa vista", 
+                "Apresentação godo", 
+                "Cria & Curte", 
+                "Bloco É sobre isso", 
+                "Retratos do castelo"
+            ],
+            values: [6, 10, 9, 19, 14, 23]
+        };
+
+        // Inicializar gráficos
+        function createCharts() {
+            // Acessos Bar
+            new Chart(document.getElementById("acessosChart"), {
+                type: 'bar',
+                data: {
+                    labels: acessosData.labels,
+                    datasets: [{
+                        label: 'Acessos',
+                        data: acessosData.values,
+                        backgroundColor: '#22c55e',
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } },
+                        x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
+                    }
+                }
+            });
+
+            // Participações Pie
+            new Chart(document.getElementById("participacoesChart"), {
+                type: 'doughnut',
+                data: {
+                    labels: participacoesOficinas.labels,
+                    datasets: [{
+                        data: participacoesOficinas.values,
+                        backgroundColor: ['#22c55e', '#eab308', '#06b67f'],
+                        borderWidth: 0,
+                        borderColor: '#18181b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#d1d5db', padding: 20, font: { size: 13 } } }
+                    }
+                }
+            });
+
+            // Inscrições Pie (simples)
+            new Chart(document.getElementById("inscricoesPie"), {
+                type: 'pie',
+                data: {
+                    labels: ['Capoeira', 'Jiu-Jitsu', 'Dança'],
+                    datasets: [{
+                        data: [12, 8, 2],
+                        backgroundColor: ['#22c55e', '#eab308', '#06b67f'],
+                        borderWidth: 6,
+                        borderColor: '#18181b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // CFDH Horizontal Bar
+            new Chart(document.getElementById("cfdhChart"), {
+                type: 'bar',
+                data: {
+                    labels: cfdhData.labels,
+                    datasets: [{
+                        label: 'Participações',
+                        data: cfdhData.values,
+                        backgroundColor: '#22c55e',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } },
+                        y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
+                    }
+                }
+            });
+        }
+
+        // Filtro de mês
+        function applyMonthFilter() {
+            const selected = document.getElementById("monthFilter").value;
+            const status = document.getElementById("filterStatus");
+            const title = document.getElementById("pageTitle");
+            
+            if (selected !== "Fevereiro") {
+                status.innerHTML = `
+                    <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+                    NENHUM DADO DISPONÍVEL PARA ${selected.toUpperCase()}
+                `;
+                status.classList.add("text-red-400");
+                title.textContent = `Dashboard ${selected} • Sem dados`;
+                
+                // Oculta conteúdo principal (exceto header)
+                document.getElementById("mainContent").style.opacity = "0.3";
+                document.getElementById("mainContent").style.pointerEvents = "none";
+            } else {
+                status.innerHTML = `
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    MOSTRANDO DADOS DE FEVEREIRO
+                `;
+                status.classList.remove("text-red-400");
+                title.textContent = "Dashboard Fevereiro";
+                document.getElementById("mainContent").style.opacity = "1";
+                document.getElementById("mainContent").style.pointerEvents = "auto";
+            }
+        }
+
+        // Scroll suave para seções
+        function scrollToSection(section) {
+            const el = document.getElementById(section);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        // Inicialização
+        window.onload = function() {
+            initializeTailwind();
+            createCharts();
+            
+            // Força Fevereiro no início
+            document.getElementById("monthFilter").value = "Fevereiro";
+        };
+    </script>
+</body>
+</html>
