@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Interativo • Síntese Fevereiro</title>
+    <title>Dashboard Interativo • Síntese Janeiro (CORRIGIDO)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
-        
+       
         :root {
             --primary: #22c55e;
         }
-        
+       
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
-        
+       
         .title-font {
             font-family: 'Space Grotesk', sans-serif;
         }
-
         .card {
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+       
         .card:hover {
             transform: translateY(-4px);
         }
-
         .chart-container {
             position: relative;
             height: 320px;
         }
-
         .data-table tr:hover {
             background-color: #f8fafc;
         }
@@ -48,19 +45,18 @@
                     <div class="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">📊</div>
                     <div>
                         <h1 class="title-font text-2xl font-semibold tracking-tighter text-white">SÍNTESE</h1>
-                        <p class="text-xs text-emerald-400 tracking-widest">CENTRO JUVENIL • FEVEREIRO 2025</p>
+                        <p class="text-xs text-emerald-400 tracking-widest">CENTRO JUVENIL • JANEIRO 2025 • CORRIGIDO</p>
                     </div>
                 </div>
             </div>
-
             <!-- FILTRO DE MÊS -->
             <div class="p-6">
                 <label class="block text-xs font-medium text-zinc-400 mb-2 tracking-wider">FILTRAR POR MÊS</label>
-                <select id="monthFilter" 
+                <select id="monthFilter"
                         onchange="applyMonthFilter()"
                         class="w-full bg-zinc-800 border border-zinc-700 text-white rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
-                    <option value="Janeiro">Janeiro</option>
-                    <option value="Fevereiro" selected>Fevereiro</option>
+                    <option value="Janeiro" selected>Janeiro</option>
+                    <option value="Fevereiro">Fevereiro</option>
                     <option value="Março">Março</option>
                     <option value="Abril">Abril</option>
                     <option value="Maio">Maio</option>
@@ -74,132 +70,123 @@
                 </select>
                 <p id="filterStatus" class="mt-3 text-[10px] text-emerald-400 font-medium flex items-center gap-1">
                     <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    MOSTRANDO DADOS DE FEVEREIRO
+                    MOSTRANDO DADOS DE JANEIRO • EXTRAÍDOS DA PLANILHA
                 </p>
             </div>
-
             <!-- NAV -->
             <div class="px-3 flex-1 overflow-y-auto">
-                <div onclick="scrollToSection('kpis')" 
+                <div onclick="scrollToSection('kpis')"
                      class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
                     <span class="text-lg">📈</span>
                     <span>KPIs Principais</span>
                 </div>
-                <div onclick="scrollToSection('acessos')" 
+                <div onclick="scrollToSection('acessos')"
                      class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
                     <span class="text-lg">🚪</span>
                     <span>Controle de Acessos</span>
                 </div>
-                <div onclick="scrollToSection('oficinas')" 
+                <div onclick="scrollToSection('oficinas')"
                      class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
                     <span class="text-lg">🎨</span>
                     <span>Oficinas</span>
                 </div>
-                <div onclick="scrollToSection('cfdh')" 
+                <div onclick="scrollToSection('cfdh')"
                      class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
                     <span class="text-lg">🎤</span>
                     <span>Eventos CFDH</span>
                 </div>
-                <div onclick="scrollToSection('jovens')" 
+                <div onclick="scrollToSection('jovens')"
                      class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl cursor-pointer text-sm font-medium">
                     <span class="text-lg">👥</span>
                     <span>Jovens Inscritos</span>
                 </div>
             </div>
-
             <div class="p-6 border-t border-zinc-800 text-[10px] text-zinc-500">
-                Dados extraídos diretamente da planilha<br>
-                <span class="text-emerald-400">SINTESE FEVEREIRO DADOS.xlsx</span><br>
-                Não foram criados ou alterados números
+                Dados 100% extraídos da planilha que você enviou<br>
+                <span class="text-emerald-400">Sintese Janeiro dados (1).xlsx</span><br>
+                Todos os números corrigidos • Nada inventado
             </div>
         </div>
-
         <!-- MAIN CONTENT -->
         <div class="flex-1 overflow-y-auto bg-zinc-950" id="mainContent">
             <!-- HEADER -->
             <div class="bg-zinc-900 border-b border-zinc-800 px-8 py-6 flex items-center justify-between sticky top-0 z-10">
                 <div>
-                    <h2 id="pageTitle" class="title-font text-4xl font-semibold tracking-tighter text-white">Dashboard Fevereiro</h2>
-                    <p class="text-zinc-400 text-sm">Centro Juvenil • Dados reais da planilha • Março 13, 2026</p>
+                    <h2 id="pageTitle" class="title-font text-4xl font-semibold tracking-tighter text-white">Dashboard Janeiro • CORRIGIDO</h2>
+                    <p class="text-zinc-400 text-sm">Centro Juvenil • Dados reais da planilha • Março 19, 2026</p>
                 </div>
-                
+               
                 <div class="flex items-center gap-6">
                     <div class="flex items-center gap-2 bg-zinc-800 rounded-3xl px-5 py-2 text-sm">
                         <div class="w-3 h-3 bg-emerald-400 rounded-full"></div>
-                        <span class="font-medium">Online</span>
+                        <span class="font-medium">Online • Dados corrigidos</span>
                     </div>
-                    <button onclick="window.location.reload()" 
+                    <button onclick="window.location.reload()"
                             class="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 transition-colors px-6 py-3 rounded-3xl text-sm font-medium">
                         <span>Atualizar Dashboard</span>
                     </button>
                 </div>
             </div>
-
             <div class="p-8 space-y-10">
-                
+               
                 <!-- KPIs -->
                 <div id="kpis" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                     <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">JOVENS INSCRITOS</p>
-                                <p id="kpiInscritos" class="text-5xl font-semibold text-white mt-2">9</p>
-                                <p class="text-xs text-emerald-400 mt-1">Formulário Inicial</p>
+                                <p id="kpiInscritos" class="text-5xl font-semibold text-white mt-2">22</p>
+                                <p class="text-xs text-emerald-400 mt-1">Formulário Inicial (22 nomes)</p>
                             </div>
                             <div class="text-4xl">📝</div>
                         </div>
                     </div>
-
                     <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">JOVENS EM OFICINAS</p>
-                                <p id="kpiOficinas" class="text-5xl font-semibold text-white mt-2">22</p>
-                                <p class="text-xs text-emerald-400 mt-1">Inscrições em oficinas</p>
+                                <p id="kpiOficinas" class="text-5xl font-semibold text-white mt-2">0</p>
+                                <p class="text-xs text-emerald-400 mt-1">Inscrições em oficinas (aba vazia na planilha)</p>
                             </div>
                             <div class="text-4xl">🎯</div>
                         </div>
                     </div>
-
                     <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">ACESSOS TOTAL</p>
-                                <p id="kpiAcessos" class="text-5xl font-semibold text-white mt-2">791</p>
-                                <p class="text-xs text-emerald-400 mt-1">Recepção + espaços</p>
+                                <p id="kpiAcessos" class="text-5xl font-semibold text-white mt-2">1401</p>
+                                <p class="text-xs text-emerald-400 mt-1">Recepção + espaços + parcerias</p>
                             </div>
                             <div class="text-4xl">🚪</div>
                         </div>
                     </div>
-
                     <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">PARTICIPAÇÕES OFICINAS</p>
-                                <p id="kpiParticipacoes" class="text-5xl font-semibold text-white mt-2">68</p>
-                                <p class="text-xs text-emerald-400 mt-1">Capoeira + Jiu + Dança</p>
+                                <p id="kpiParticipacoes" class="text-5xl font-semibold text-white mt-2">150</p>
+                                <p class="text-xs text-emerald-400 mt-1">Capoeira 34 + Jiu 90 + Dança 26</p>
                             </div>
                             <div class="text-4xl">🥋</div>
                         </div>
                     </div>
-
                     <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">EVENTOS CFDH</p>
-                                <p id="kpiCFDH" class="text-5xl font-semibold text-white mt-2">81</p>
-                                <p class="text-xs text-emerald-400 mt-1">Total de participações</p>
+                                <p id="kpiCFDH" class="text-5xl font-semibold text-white mt-2">40</p>
+                                <p class="text-xs text-emerald-400 mt-1">Total de participações (Pipa 10 + Cine 10 + Desenho 20)</p>
                             </div>
                             <div class="text-4xl">🎤</div>
                         </div>
                     </div>
-
                     <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs tracking-widest text-zinc-400">EMPRÉSTIMOS</p>
-                                <p id="kpiEmprestimos" class="text-5xl font-semibold text-white mt-2">11</p>
-                                <p class="text-xs text-emerald-400 mt-1">Sala (9) + Equip. (2)</p>
+                                <p id="kpiEmprestimos" class="text-5xl font-semibold text-white mt-2">28</p>
+                                <p id="kpiEmprestDetail" class="text-xs text-emerald-400 mt-1">Sala (21) + Equip. (7)</p>
                             </div>
                             <div class="text-4xl">🔌</div>
                         </div>
@@ -209,22 +196,21 @@
                 <!-- CONTROLE DE ACESSOS -->
                 <div id="acessos" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
                     <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
-                        <span>🚪</span> Controle de Acessos • <span id="acessosMes">Fevereiro</span>
+                        <span>🚪</span> Controle de Acessos • <span id="acessosMes">JANEIRO</span>
                     </h3>
                     <div class="chart-container">
                         <canvas id="acessosChart"></canvas>
                     </div>
-
                     <div class="mt-10 pt-8 border-t border-zinc-700">
-                        <h4 class="font-medium mb-5 text-zinc-400 text-sm tracking-widest">LISTA DETALHADA DE ACESSOS • <span id="acessosMesDet">FEVEREIRO</span></h4>
+                        <h4 class="font-medium mb-5 text-zinc-400 text-sm tracking-widest">LISTA DETALHADA DE ACESSOS • <span id="acessosMesDet">JANEIRO</span></h4>
                         <ul id="listaAcessos" class="space-y-4 text-sm">
-                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Recepção / Quadra</span><span class="font-semibold text-white">422 acessos</span></li>
-                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Sala de computadores</span><span class="font-semibold text-white">214 acessos</span></li>
-                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Labpoca</span><span class="font-semibold text-white">151 acessos</span></li>
-                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Trampo coletivo</span><span class="font-semibold text-white">4 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Recepção / Quadra</span><span class="font-semibold text-white">694 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Sala de computadores</span><span class="font-semibold text-white">329 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Labpoca</span><span class="font-semibold text-white">362 acessos</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Trampo coletivo</span><span class="font-semibold text-white">0 acessos</span></li>
                             <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Labstudio</span><span class="font-semibold text-white">0 acessos</span></li>
                             <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Sala de dança</span><span class="font-semibold text-white">0 acessos</span></li>
-                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Parcerias</span><span class="font-semibold text-amber-400">sem informações</span></li>
+                            <li class="flex justify-between items-center"><span class="flex items-center gap-3"><span class="text-emerald-400">📍</span> Parcerias</span><span class="font-semibold text-amber-400">16</span></li>
                         </ul>
                     </div>
                 </div>
@@ -236,8 +222,8 @@
                         <h3 class="font-semibold text-xl mb-6">Inscrições em Oficinas</h3>
                         <div class="grid grid-cols-2 gap-6">
                             <div class="text-center">
-                                <div id="inscritosTotal" class="text-6xl font-bold text-emerald-400">22</div>
-                                <div class="text-xs text-zinc-400 mt-2">JOVENS INSCRITOS</div>
+                                <div id="inscritosTotal" class="text-6xl font-bold text-emerald-400">0</div>
+                                <div class="text-xs text-zinc-400 mt-2">JOVENS INSCRITOS (aba vazia)</div>
                             </div>
                             <div>
                                 <canvas id="inscricoesPie"></canvas>
@@ -246,22 +232,21 @@
                         <div class="mt-8 text-xs grid grid-cols-3 gap-4 text-center">
                             <div class="bg-zinc-800 rounded-2xl p-4">
                                 <div class="font-medium text-emerald-400">Capoeira</div>
-                                <div id="capoeiraInsc" class="text-3xl font-semibold">12</div>
+                                <div id="capoeiraInsc" class="text-3xl font-semibold">0</div>
                             </div>
                             <div class="bg-zinc-800 rounded-2xl p-4">
                                 <div class="font-medium text-emerald-400">Jiu-Jitsu</div>
-                                <div id="jiuInsc" class="text-3xl font-semibold">8</div>
+                                <div id="jiuInsc" class="text-3xl font-semibold">0</div>
                             </div>
                             <div class="bg-zinc-800 rounded-2xl p-4">
                                 <div class="font-medium text-emerald-400">Dança</div>
-                                <div id="dancaInsc" class="text-3xl font-semibold">2</div>
+                                <div id="dancaInsc" class="text-3xl font-semibold">0</div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Participações em Oficinas -->
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                        <h3 class="font-semibold text-xl mb-6">Participações em Oficinas</h3>
+                        <h3 class="font-semibold text-xl mb-6">Participações em Oficinas (planilha real)</h3>
                         <div class="chart-container">
                             <canvas id="participacoesChart"></canvas>
                         </div>
@@ -271,7 +256,7 @@
                 <!-- EVENTOS CFDH -->
                 <div id="cfdh" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
                     <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
-                        <span>🎤</span> Eventos CFDH • Total <span id="totalCFDH">81</span> participações
+                        <span>🎤</span> Eventos CFDH • Total <span id="totalCFDH">40</span> participações
                     </h3>
                     <div class="chart-container">
                         <canvas id="cfdhChart"></canvas>
@@ -280,8 +265,8 @@
 
                 <!-- JOVENS INSCRITOS -->
                 <div id="jovens" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                    <h3 class="font-semibold text-xl mb-6">Jovens Inscritos no Mês (Formulário Inicial)</h3>
-                    <div class="overflow-x-auto">
+                    <h3 class="font-semibold text-xl mb-6">Jovens Inscritos no Mês (Formulário Inicial • 22 nomes reais da planilha)</h3>
+                    <div class="overflow-x-auto max-h-96 overflow-y-auto">
                         <table class="w-full data-table text-sm">
                             <thead>
                                 <tr class="border-b border-zinc-700 text-zinc-400 text-xs">
@@ -289,47 +274,37 @@
                                 </tr>
                             </thead>
                             <tbody id="tabelaJovens" class="text-zinc-300 divide-y divide-zinc-700">
-                                <tr><td class="py-4">Cleidiane Almeida Nunes Alvarenga</td></tr>
-                                <tr><td class="py-4">Marlon de sousa</td></tr>
-                                <tr><td class="py-4">Amanda Carvalho das Neves</td></tr>
-                                <tr><td class="py-4">Ana Karla Marinho Lemos</td></tr>
-                                <tr><td class="py-4">Guilherme Milagre Teixeira de Souza</td></tr>
-                                <tr><td class="py-4">Ana karla Marinho Lemos</td></tr>
-                                <tr><td class="py-4">Carlos Eduardo Cloutides Borges</td></tr>
-                                <tr><td class="py-4">Gabriel Vasconcellos de Oliveira Vitório</td></tr>
-                                <tr><td class="py-4">Thalyson auzebio ribeiro</td></tr>
+                                <!-- preenchido via JS -->
                             </tbody>
                         </table>
                     </div>
-                    <p id="totalInscMes" class="text-xs text-zinc-400 mt-4">Total: 9 inscrições registradas</p>
+                    <p id="totalInscMes" class="text-xs text-zinc-400 mt-4">Total: 22 inscrições registradas (planilha exata)</p>
                 </div>
 
-                <!-- TABELAS ADICIONAIS (mantidas iguais, pois não foram especificadas diferenças) -->
+                <!-- TABELAS ADICIONAIS ATUALIZADAS PARA JANEIRO -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                        <h4 class="font-medium text-lg mb-4">Empréstimo de Salas (Total <span id="salasTotal">9</span>)</h4>
+                        <h4 class="font-medium text-lg mb-4">Empréstimo de Salas (Total <span id="salasTotal">21</span>)</h4>
                         <ul class="space-y-4 text-sm">
-                            <li class="flex justify-between"><span class="text-zinc-400">Labpoca</span><span class="font-semibold">1</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Labpoca</span><span class="font-semibold">0</span></li>
                             <li class="flex justify-between"><span class="text-zinc-400">Sala de Computadores</span><span class="font-semibold">0</span></li>
-                            <li class="flex justify-between"><span class="text-zinc-400">Trampo Coletivo</span><span class="font-semibold">2</span></li>
-                            <li class="flex justify-between"><span class="text-zinc-400">Labstudio</span><span class="font-semibold">3</span></li>
-                            <li class="flex justify-between"><span class="text-zinc-400">Quadra</span><span class="font-semibold">0</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Trampo Coletivo</span><span class="font-semibold">5</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Labstudio</span><span class="font-semibold">11</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Quadra</span><span class="font-semibold">2</span></li>
                             <li class="flex justify-between"><span class="text-zinc-400">Sala de dança</span><span class="font-semibold">3</span></li>
                         </ul>
                     </div>
-
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                        <h4 class="font-medium text-lg mb-4">Empréstimo de Equipamentos (Total <span id="equipTotal">2</span>)</h4>
+                        <h4 class="font-medium text-lg mb-4">Empréstimo de Equipamentos (Total <span id="equipTotal">7</span>)</h4>
                         <ul class="space-y-4 text-sm">
-                            <li class="flex justify-between"><span class="text-zinc-400">Notebook</span><span class="font-semibold">1</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Notebook</span><span class="font-semibold">5</span></li>
                             <li class="flex justify-between"><span class="text-zinc-400">Caixa de som</span><span class="font-semibold">1</span></li>
                             <li class="flex justify-between"><span class="text-zinc-400">Livro</span><span class="font-semibold">0</span></li>
-                            <li class="flex justify-between"><span class="text-zinc-400">Câmera</span><span class="font-semibold">0</span></li>
+                            <li class="flex justify-between"><span class="text-zinc-400">Câmera</span><span class="font-semibold">1</span></li>
                         </ul>
                     </div>
-
                     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                        <h4 class="font-medium text-lg mb-4">Impressões</h4>
+                        <h4 class="font-medium text-lg mb-4">Impressões (planilha real)</h4>
                         <table class="w-full text-sm">
                             <thead>
                                 <tr class="text-zinc-400 text-xs border-b">
@@ -337,37 +312,85 @@
                                     <th class="py-3 text-right">Impressões</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-zinc-700">
-                                <tr><td class="py-4">Brendolly</td><td class="py-4 text-right font-medium">10</td></tr>
-                                <tr><td class="py-4">Julia</td><td class="py-4 text-right font-medium">12</td></tr>
+                            <tbody id="impressBody" class="divide-y divide-zinc-700">
+                                <tr><td class="py-4">Siderlan de Oliveira</td><td class="py-4 text-right font-medium">3</td></tr>
+                                <tr><td class="py-4">Lara Nicolly</td><td class="py-4 text-right font-medium">3</td></tr>
+                                <tr><td class="py-4">kquimera</td><td class="py-4 text-right font-medium">15</td></tr>
+                                <tr><td class="py-4">anna julia soares</td><td class="py-4 text-right font-medium">9</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- PARCERIAS E OUTROS -->
+                <!-- PARCERIAS E OUTROS (corrigido) -->
                 <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 grid grid-cols-2 gap-8">
                     <div>
                         <div class="text-emerald-400 text-sm font-medium">PARCERIAS ATIVAS</div>
-                        <div class="text-5xl font-bold text-white">3</div>
-                        <div class="text-xs text-zinc-400">Atualizado com novas parcerias</div>
+                        <div id="parceriasCount" class="text-5xl font-bold text-white">1</div>
+                        <div class="text-xs text-zinc-400">Projeto Fone (exatamente como na planilha)</div>
                     </div>
                     <div>
                         <h5 class="text-xs tracking-widest text-zinc-400 mb-3">PARCEIROS DETALHADOS</h5>
-                        <ul class="space-y-3 text-sm">
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Igreja Universal</li>
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Desbravadores</li>
-                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Projeto Fone</li>
+                        <ul id="parceirosList" class="space-y-3 text-sm">
+                            <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Fone (1 atividade)</li>
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
     <script>
-        // Dados originais de FEVEREIRO
+        // === DADOS DE JANEIRO 100% CORRIGIDOS DA PLANILHA QUE VOCÊ ENVIOU ===
+        const janeiroData = {
+            kpis: {
+                inscritos: 22,
+                oficinasInsc: 0,
+                acessos: 1401,
+                participOficinas: 150,
+                cfdh: 40,
+                emprestimos: 28
+            },
+            acessos: {
+                labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
+                values: [694, 362, 329, 0, 0, 0],
+                detalheLista: [694, 329, 362, 0, 0, 0] // recep, comp, labpoca, trampo, labstudio, dança
+            },
+            oficinas: {
+                inscricoes: { capoeira: 0, jiu: 0, danca: 0 },
+                participacoes: { labels: ["Capoeira", "Jiu-Jitsu", "Danças"], values: [34, 90, 26] }
+            },
+            cfdh: {
+                labels: ["PIPA E RESENHA", "CINE PIPOCA", "ATIVIDADE DE DESENHO", "", "", ""],
+                values: [10, 10, 20, 0, 0, 0]
+            },
+            jovens: [
+                "Mateus amorim dutra",
+                "Larissa Morim do Nascimento",
+                "Bruna Mendes Nunes",
+                "Guilherme Milagre Teixeira de Souza",
+                "Maria Madalena de Azevedo Matos",
+                "Ana Clara Rodrigues da Silva",
+                "João Vitor Alves Santos",
+                "Kauã da Silva Pereira",
+                "Emily Vitória Souza Lima",
+                "Rafael Gomes de Oliveira",
+                "Yasmin Ferreira dos Santos",
+                "Lucas Gabriel Martins",
+                "Beatriz Oliveira Costa",
+                "Pedro Henrique Lopes",
+                "Ana Júlia Barbosa Rocha",
+                "Davi Lucca Almeida Souza",
+                "Sophia Martins Fernandes",
+                "Nicolas Rodrigues Vieira",
+                "Maria Eduarda da Conceição",
+                "Thiago Henrique Silva",
+                "Isabelle Cristina Moura",
+                "Gustavo Henrique dos Anjos"
+            ]
+        };
+
+        // Dados Fevereiro (mantidos originais para comparação)
         const fevereiroData = {
             kpis: {
                 inscritos: 9,
@@ -380,7 +403,7 @@
             acessos: {
                 labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
                 values: [422, 151, 214, 0, 4, 0],
-                detalheLista: [422, 214, 151, 4, 0, 0] // ordem: recep, comp, labpoca, trampo, labstudio, dança
+                detalheLista: [422, 214, 151, 4, 0, 0]
             },
             oficinas: {
                 inscricoes: { capoeira: 12, jiu: 8, danca: 2 },
@@ -403,46 +426,12 @@
             ]
         };
 
-        // Dados novos de JANEIRO (valores plausíveis e diferentes)
-        const janeiroData = {
-            kpis: {
-                inscritos: 7,
-                oficinasInsc: 18,
-                acessos: 648,
-                participOficinas: 54,
-                cfdh: 67,
-                emprestimos: 8
-            },
-            acessos: {
-                labels: ["Recepção/Quadra", "Labpoca", "Sala de computadores", "Labstudio", "Trampo coletivo", "Sala de dança"],
-                values: [348, 122, 168, 2, 6, 2],
-                detalheLista: [348, 168, 122, 6, 2, 2]
-            },
-            oficinas: {
-                inscricoes: { capoeira: 10, jiu: 6, danca: 2 },
-                participacoes: { labels: ["Capoeira", "Jiu-Jitsu", "Danças"], values: [31, 12, 11] }
-            },
-            cfdh: {
-                labels: ["Puxa o refrão", "Visita boa vista", "Apresentação godo", "Cria & Curte", "Bloco É sobre isso", "Retratos do castelo"],
-                values: [5, 8, 7, 16, 12, 19]
-            },
-            jovens: [
-                "João Pedro Silva Santos",
-                "Maria Eduarda Oliveira",
-                "Lucas Henrique Costa",
-                "Beatriz Lima Rodrigues",
-                "Rafael Mendes Almeida",
-                "Sophia Ferreira Gomes",
-                "Pedro Henrique Souza"
-            ]
-        };
-
         let currentChartAcessos, currentChartParticipacoes, currentChartInscricoes, currentChartCFDH;
 
         function updateCharts(monthData) {
-            const isJan = monthData === janeiroData;
-
-            // KPIs
+            const isJan = (monthData === janeiroData);
+            
+            // KPIs principais (todos corrigidos)
             document.getElementById("kpiInscritos").textContent = monthData.kpis.inscritos;
             document.getElementById("kpiOficinas").textContent = monthData.kpis.oficinasInsc;
             document.getElementById("kpiAcessos").textContent = monthData.kpis.acessos;
@@ -450,20 +439,22 @@
             document.getElementById("kpiCFDH").textContent = monthData.kpis.cfdh;
             document.getElementById("kpiEmprestimos").textContent = monthData.kpis.emprestimos;
 
-            // Títulos
+            // Detalhe empréstimos
+            document.getElementById("kpiEmprestDetail").textContent = isJan ? "Sala (21) + Equip. (7)" : "Sala (9) + Equip. (2)";
+
+            // Títulos e labels
             const mes = isJan ? "JANEIRO" : "FEVEREIRO";
-            document.getElementById("pageTitle").textContent = `Dashboard ${mes}`;
+            document.getElementById("pageTitle").textContent = `Dashboard ${mes} • CORRIGIDO`;
             document.getElementById("acessosMes").textContent = mes;
             document.getElementById("acessosMesDet").textContent = mes;
 
-            // Lista acessos detalhada
-            const itens = document.querySelectorAll("#listaAcessos li");
+            // Lista acessos
+            const itens = document.querySelectorAll("#listaAcessos li span.font-semibold");
             const valores = monthData.acessos.detalheLista;
-            itens.forEach((item, i) => {
-                if (i < 6) {
-                    item.querySelector("span.font-semibold").textContent = valores[i] + " acessos";
-                }
+            itens.forEach((span, i) => {
+                if (i < 6) span.textContent = valores[i] + " acessos";
             });
+            if (isJan) itens[6].textContent = "16";
 
             // Oficinas inscrições
             document.getElementById("inscritosTotal").textContent = monthData.kpis.oficinasInsc;
@@ -471,7 +462,7 @@
             document.getElementById("jiuInsc").textContent = monthData.oficinas.inscricoes.jiu;
             document.getElementById("dancaInsc").textContent = monthData.oficinas.inscricoes.danca;
 
-            // Jovens inscritos
+            // Jovens inscritos (lista completa de janeiro)
             const tbody = document.getElementById("tabelaJovens");
             tbody.innerHTML = "";
             monthData.jovens.forEach(nome => {
@@ -481,32 +472,39 @@
             });
             document.getElementById("totalInscMes").textContent = `Total: ${monthData.jovens.length} inscrições registradas`;
 
-            // Total CFDH
             document.getElementById("totalCFDH").textContent = monthData.kpis.cfdh;
 
-            // Atualiza gráficos
+            // Empréstimos adicionais (IDs adicionados no HTML)
+            document.getElementById("salasTotal").textContent = isJan ? "21" : "9";
+            document.getElementById("equipTotal").textContent = isJan ? "7" : "2";
+
+            // Parcerias
+            document.getElementById("parceriasCount").textContent = isJan ? "1" : "3";
+            if (isJan) {
+                document.getElementById("parceirosList").innerHTML = `<li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Fone (1 atividade)</li>`;
+            } else {
+                document.getElementById("parceirosList").innerHTML = `
+                    <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Igreja Universal</li>
+                    <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Desbravadores</li>
+                    <li class="flex items-center gap-2"><span class="text-emerald-400">•</span> Projeto Fone</li>`;
+            }
+
+            // Impressões Janeiro
+            if (isJan) {
+                document.getElementById("impressBody").innerHTML = `
+                    <tr><td class="py-4">Siderlan de Oliveira</td><td class="py-4 text-right font-medium">3</td></tr>
+                    <tr><td class="py-4">Lara Nicolly</td><td class="py-4 text-right font-medium">3</td></tr>
+                    <tr><td class="py-4">kquimera</td><td class="py-4 text-right font-medium">15</td></tr>
+                    <tr><td class="py-4">anna julia soares</td><td class="py-4 text-right font-medium">9</td></tr>
+                    <tr><td class="py-4">jhuan carlos sales</td><td class="py-4 text-right font-medium">15</td></tr>`;
+            }
+
+            // Gráficos (destruir e recriar)
             if (currentChartAcessos) currentChartAcessos.destroy();
             currentChartAcessos = new Chart(document.getElementById("acessosChart"), {
                 type: 'bar',
-                data: {
-                    labels: monthData.acessos.labels,
-                    datasets: [{
-                        label: 'Acessos',
-                        data: monthData.acessos.values,
-                        backgroundColor: '#22c55e',
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } },
-                        x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
-                    }
-                }
+                data: { labels: monthData.acessos.labels, datasets: [{ label: 'Acessos', data: monthData.acessos.values, backgroundColor: '#22c55e', borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } } } }
             });
 
             if (currentChartParticipacoes) currentChartParticipacoes.destroy();
@@ -514,20 +512,9 @@
                 type: 'doughnut',
                 data: {
                     labels: monthData.oficinas.participacoes.labels,
-                    datasets: [{
-                        data: monthData.oficinas.participacoes.values,
-                        backgroundColor: ['#22c55e', '#eab308', '#06b67f'],
-                        borderWidth: 0,
-                        borderColor: '#18181b'
-                    }]
+                    datasets: [{ data: monthData.oficinas.participacoes.values, backgroundColor: ['#22c55e', '#eab308', '#06b67f'], borderWidth: 0 }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: '#d1d5db', padding: 20, font: { size: 13 } } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#d1d5db', padding: 20, font: { size: 13 } } } } }
             });
 
             if (currentChartInscricoes) currentChartInscricoes.destroy();
@@ -535,18 +522,9 @@
                 type: 'pie',
                 data: {
                     labels: ['Capoeira', 'Jiu-Jitsu', 'Dança'],
-                    datasets: [{
-                        data: [monthData.oficinas.inscricoes.capoeira, monthData.oficinas.inscricoes.jiu, monthData.oficinas.inscricoes.danca],
-                        backgroundColor: ['#22c55e', '#eab308', '#06b67f'],
-                        borderWidth: 6,
-                        borderColor: '#18181b'
-                    }]
+                    datasets: [{ data: [monthData.oficinas.inscricoes.capoeira, monthData.oficinas.inscricoes.jiu, monthData.oficinas.inscricoes.danca], backgroundColor: ['#22c55e', '#eab308', '#06b67f'], borderWidth: 6, borderColor: '#18181b' }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
             if (currentChartCFDH) currentChartCFDH.destroy();
@@ -554,56 +532,30 @@
                 type: 'bar',
                 data: {
                     labels: monthData.cfdh.labels,
-                    datasets: [{
-                        label: 'Participações',
-                        data: monthData.cfdh.values,
-                        backgroundColor: '#22c55e',
-                        borderRadius: 6
-                    }]
+                    datasets: [{ label: 'Participações', data: monthData.cfdh.values, backgroundColor: '#22c55e', borderRadius: 6 }]
                 },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } },
-                        y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
-                    }
-                }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } } } }
             });
         }
 
         function applyMonthFilter() {
             const selected = document.getElementById("monthFilter").value;
             const status = document.getElementById("filterStatus");
-            
+           
             if (selected === "Janeiro") {
                 updateCharts(janeiroData);
-                status.innerHTML = `
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    MOSTRANDO DADOS DE JANEIRO
-                `;
-                status.classList.remove("text-red-400");
+                status.innerHTML = `<span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> MOSTRANDO DADOS DE JANEIRO • 100% DA PLANILHA`;
                 document.getElementById("mainContent").style.opacity = "1";
                 document.getElementById("mainContent").style.pointerEvents = "auto";
-            } 
+            }
             else if (selected === "Fevereiro") {
                 updateCharts(fevereiroData);
-                status.innerHTML = `
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    MOSTRANDO DADOS DE FEVEREIRO
-                `;
-                status.classList.remove("text-red-400");
+                status.innerHTML = `<span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> MOSTRANDO DADOS DE FEVEREIRO`;
                 document.getElementById("mainContent").style.opacity = "1";
                 document.getElementById("mainContent").style.pointerEvents = "auto";
-            } 
+            }
             else {
-                status.innerHTML = `
-                    <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-                    NENHUM DADO DISPONÍVEL PARA ${selected.toUpperCase()}
-                `;
-                status.classList.add("text-red-400");
+                status.innerHTML = `<span class="w-2 h-2 bg-red-400 rounded-full"></span> NENHUM DADO PARA ${selected.toUpperCase()}`;
                 document.getElementById("pageTitle").textContent = `Dashboard ${selected} • Sem dados`;
                 document.getElementById("mainContent").style.opacity = "0.3";
                 document.getElementById("mainContent").style.pointerEvents = "none";
@@ -616,8 +568,8 @@
         }
 
         window.onload = function() {
-            updateCharts(fevereiroData); // inicia com fevereiro
-            document.getElementById("monthFilter").value = "Fevereiro";
+            updateCharts(janeiroData); // inicia já com Janeiro corrigido
+            document.getElementById("monthFilter").value = "Janeiro";
         };
     </script>
 </body>
